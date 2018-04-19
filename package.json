@@ -1,0 +1,29 @@
+{
+  "name": "websocket-server",
+  "version": "1.0.0",
+  "description": "A simple websocket server",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/giovannicuriel/websocket-server.git"
+  },
+  "keywords": [
+    "websocket",
+    "server"
+  ],
+  "author": "Giovanni Curiel dos Santos",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/giovannicuriel/websocket-server/issues"
+  },
+  "homepage": "https://github.com/giovannicuriel/websocket-server#readme",
+  "dependencies": {
+    "@types/ws": "^4.0.2",
+    "ws": "^5.1.1"
+  }
+}
