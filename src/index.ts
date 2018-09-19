@@ -1,9 +1,26 @@
 import WebSocket = require("ws");
 import { config } from "./config";
-import { IncomingMessage } from "http";
+import { IncomingMessage, Server, ServerResponse} from "http";
 
 
-const wss = new WebSocket.Server({ host: config.SERVER_HOST, port: config.SERVER_PORT });
+function requestListener(req: IncomingMessage, res: ServerResponse) {
+  var body = "";
+  req.on('data', function (chunk) {
+    body += chunk;
+  });
+  req.on('end', function () {
+    console.log("Endpoint: " + req.url);
+    console.log('POSTed: ' + body);
+    res.statusCode = 200;
+    res.write("OK");
+    res.end();
+  });  
+}
+
+const httpServer = new Server(requestListener);
+httpServer.listen(config.SERVER_PORT, config.SERVER_HOST);
+
+const wss = new WebSocket.Server({server: httpServer});
 
 wss.on("connection", (socket: WebSocket, request: IncomingMessage) : void => {
   socket.on("message", (request: WebSocket.Data) => {
@@ -20,7 +37,6 @@ wss.on("connection", (socket: WebSocket, request: IncomingMessage) : void => {
 
   setInterval(function() {
     if (socket.readyState === WebSocket.OPEN) {
-      console.log("sending...");
       socket.send(config.DATA);
     }
   }, config.SEND_INTERVAL);
